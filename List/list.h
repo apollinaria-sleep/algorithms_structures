@@ -44,9 +44,9 @@ namespace lab618 {
                     m_pCurrent = m_pBegin;
                     m_pBegin = 0;
                 } else {
-                    //if (m_pCurrent) {
+                    if (m_pCurrent) {
                         m_pCurrent = m_pCurrent->pnext;
-                    //}
+                    }
                 }
             }
 
@@ -140,20 +140,23 @@ namespace lab618 {
 
             leaf* leaf_ = it.getLeaf();
             if (leaf_ == m_pBegin) {
-                m_pBegin = m_pBegin->pnext;
                 it.setLeafPreBegin(leaf_->pnext);
+                m_pBegin = m_pBegin->pnext;
             } else {
                 leaf* prev = m_pBegin;
                 while (prev->pnext != leaf_) {
                     prev = prev->pnext;
                 }
-                it.setLeaf(prev);
                 prev->pnext = leaf_->pnext;
+                it.setLeaf(prev);
                 if (!leaf_->pnext) {
                     m_pEnd = prev;
                 }
             }
             delete leaf_;
+            if (!m_pBegin) {
+                m_pEnd = nullptr;
+            }
         }
 
         int getSize() {
@@ -389,6 +392,10 @@ namespace lab618 {
             leaf_->pprev = 0;
             leaf_->pnext = 0;
             delete leaf_;
+            if (!m_pBegin || !m_pEnd) {
+                m_pBegin = nullptr;
+                m_pEnd = nullptr;
+            }
         }
 
         // изменяет состояние итератора. выставляет следующую позицию.
@@ -414,6 +421,10 @@ namespace lab618 {
             leaf_->pprev = 0;
             leaf_->pnext = 0;
             delete leaf_;
+            if (!m_pBegin || !m_pEnd) {
+                m_pBegin = nullptr;
+                m_pEnd = nullptr;
+            }
         }
 
         int getSize() {
