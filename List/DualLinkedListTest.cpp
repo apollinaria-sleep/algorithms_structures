@@ -128,6 +128,26 @@ TEST_CASE("eraseAndNext") {
 }
 
 
+TEST_CASE("all_elements") {
+    lab618::CDualLinkedList<int> list;
+
+    int size = 5;
+    for (int element = 0; element < size; ++element) {
+        list.pushBack(element);
+    }
+
+    lab618::CDualLinkedList<int>::CIterator it_b = list.begin();
+    for (int element = 0; it_b.isValid(); ++it_b, ++element) {
+        CHECK(element == *it_b);
+    }
+
+    lab618::CDualLinkedList<int>::CIterator it_e = list.end();
+    for (int element = size - 1; it_e.isValid(); --it_e, --element) {
+        CHECK(element == *it_e);
+    }
+}
+
+
 TEST_CASE("clear") {
     lab618::CDualLinkedList<int> list;
 
