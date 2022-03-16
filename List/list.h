@@ -1,6 +1,8 @@
 #ifndef TEMPLATES_LIST_2022_02_03
 #define TEMPLATES_LIST_2022_02_03
 
+#include <iostream>
+
 namespace lab618 {
     template<class T>
     class CSingleLinkedList {
@@ -42,7 +44,9 @@ namespace lab618 {
                     m_pCurrent = m_pBegin;
                     m_pBegin = 0;
                 } else {
-                    m_pCurrent = m_pCurrent->pnext;
+                    //if (m_pCurrent) {
+                        m_pCurrent = m_pCurrent->pnext;
+                    //}
                 }
             }
 
@@ -172,8 +176,8 @@ namespace lab618 {
                 delete m_pBegin;
                 m_pBegin = next_leaf;
             }
-            m_pBegin = 0;
-            m_pEnd = 0;
+            m_pBegin = nullptr;
+            m_pEnd = nullptr;
         }
 
         CIterator begin() {
@@ -345,7 +349,7 @@ namespace lab618 {
         }
 
         T popFront() {
-            if (!m_pBegin) {
+            if (m_pBegin == nullptr) {
                 return T();
             }
 
@@ -432,8 +436,8 @@ namespace lab618 {
                 delete m_pBegin;
                 m_pBegin = next_leaf;
             }
-            m_pBegin = 0;
-            m_pEnd = 0;
+            m_pBegin = nullptr;
+            m_pEnd = nullptr;
         }
 
         CIterator begin() {
