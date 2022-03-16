@@ -82,6 +82,21 @@ TEST_CASE("erase") {
 }
 
 
+TEST_CASE("all_elements") {
+    lab618::CSingleLinkedList<int> list;
+
+    int size = 5;
+    for (int element = 0; element < size; ++element) {
+        list.pushBack(element);
+    }
+
+    lab618::CSingleLinkedList<int>::CIterator it = list.begin();
+    for (int element = 0; it.isValid(); ++it, ++element) {
+        CHECK(element == *it);
+    }
+}
+
+
 TEST_CASE("clear") {
     lab618::CSingleLinkedList<int> list;
 
