@@ -1,5 +1,5 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "mm1.h"
+#include "mm.h"
 #include "doctest.h"
 
 struct TwoInt {
