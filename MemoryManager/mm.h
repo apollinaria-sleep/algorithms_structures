@@ -1,6 +1,7 @@
 #ifndef MEMORY_MANAGER_HEAD_H_2022_02_17
 #define MEMORY_MANAGER_HEAD_H_2022_02_17
 
+#include <iostream>
 
 namespace lab618 {
     template <class T>
@@ -53,6 +54,8 @@ namespace lab618 {
             T* p = m_pCurrentBlk->pdata + m_pCurrentBlk->firstFreeIndex;
             int* index = reinterpret_cast<int*>(p);
             m_pCurrentBlk->firstFreeIndex = *index;
+            new (reinterpret_cast<void*>(p)) T; // здесь будем вызывать конструктор объекта без выделения памяти
+                                                // с помощью placement new
             m_pCurrentBlk->usedCount += 1;
 
             return p;
@@ -102,7 +105,10 @@ namespace lab618 {
 
         // Создать новый блок данных. Применяется в newObject
         block* newBlock() {
-            T* newData = new T[m_blkSize];
+            //T* newData = new T[m_blkSize]; - здесь происходит вызов конструкторов для Т, но затем мы 'сводим на нет'
+                                            // работу конструктора тем, что заполняем память местами,
+                                            // поэтому будем выделять память иначе, без вызова конструктора здесь
+            T* newData = reinterpret_cast<T*>(new char[m_blkSize * sizeof(T)]);
             auto* newBlock = new block();
             newBlock->pdata = newData;
             for (int i = 1; i <= m_blkSize; i++) {
@@ -122,7 +128,7 @@ namespace lab618 {
 
         // Освободить память блока данных. Применяется в clear
         void deleteBlock(block *p) {
-            delete[] p->pdata;
+            delete[] reinterpret_cast<char*>(p->pdata);
             delete p;
         }
 
