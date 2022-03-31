@@ -54,7 +54,6 @@ namespace lab618 {
             T* p = m_pCurrentBlk->pdata + m_pCurrentBlk->firstFreeIndex;
             int* index = reinterpret_cast<int*>(p);
             m_pCurrentBlk->firstFreeIndex = *index;
-            std::cout << "newObject\n";
             new (reinterpret_cast<void*>(p)) T; // здесь будем вызывать конструктор объекта без выделения памяти
                                                 // с помощью placement new
             m_pCurrentBlk->usedCount += 1;
@@ -123,7 +122,6 @@ namespace lab618 {
 
         // Создать новый блок данных. Применяется в newObject
         block* newBlock() {
-            std::cout << "newBlock\n";
             //T* newData = new T[m_blkSize]; - здесь происходит вызов конструкторов для Т, но затем мы 'сводим на нет'
                                             // работу конструктора тем, что заполняем память местами,
                                             // поэтому будем выделять память иначе, без вызова конструктора здесь
