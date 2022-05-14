@@ -1,59 +1,53 @@
 #include "sort.h"
 
+
 namespace templates {
-    void merge(void** ppArray, int left, int middle, int right, CompareSortType pCompareFunc) {
-        int i = 0;
-        int j = 0;
+    void merge(void** ppArray, int left, int middle, int right, CompareSortType pCompareFunc, void** array) {
+        int i = left;
+        int j = middle;
         int k = left;
-        int length1 = middle - left;
-        int length2 = right - middle;
 
-        void** leftArray = new void*[length1];
-        void** rightArray = new void*[length2];
+        for (int i = left; i < right; ++i) {
+            array[i] = ppArray[i];
+        }
 
-        for (int i = 0; i < length1; i++)
-            leftArray[i] = ppArray[left + i];
-        for (int j = 0; j < length2; j++)
-            rightArray[j] = ppArray[middle + j];
-
-        while (i < length1 && j < length2) {
-            if (pCompareFunc(leftArray[i], rightArray[j]) < 0) {
-                ppArray[k] = leftArray[i];
+        while (i < middle && j < right) {
+            if (pCompareFunc(array[i], array[j]) < 0) {
+                ppArray[k] = array[i];
                 i++;
             } else {
-                ppArray[k] = rightArray[j];
+                ppArray[k] = array[j];
                 j++;
             }
             k++;
         }
 
-        while (i < length1) {
-            ppArray[k] = leftArray[i];
+        while (i < middle) {
+            ppArray[k] = array[i];
             i++;
             k++;
         }
 
-        while (j < length2) {
-            ppArray[k] = rightArray[j];
+        while (j < right) {
+            ppArray[k] = array[j];
             j++;
             k++;
         }
-
-        delete[] leftArray;
-        delete[] rightArray;
     }
 
-    void sort(void** ppArray, int left, int right, CompareSortType pCompareFunc) {
+    void sort(void** ppArray, int left, int right, CompareSortType pCompareFunc, void** array) {
         if (left + 1 >= right) {
             return;
         }
         int middle = (left + right) / 2;
-        sort(ppArray, left, middle, pCompareFunc);
-        sort(ppArray, middle, right, pCompareFunc);
-        merge(ppArray, left, middle, right, pCompareFunc);
+        sort(ppArray, left, middle, pCompareFunc, array);
+        sort(ppArray, middle, right, pCompareFunc, array);
+        merge(ppArray, left, middle, right, pCompareFunc, array);
     }
 
     void mergeSort(void** ppArray, int length, CompareSortType pCompareFunc) {
-        sort(ppArray, 0, length, pCompareFunc);
+        void** array = new void*[length];
+        sort(ppArray, 0, length, pCompareFunc, array);
+        delete[] array;
     }
 }
