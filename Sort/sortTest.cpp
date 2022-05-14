@@ -28,10 +28,11 @@ void GenerateString(std::string* str, const int& quantity, const int& size) {
 }
 
 int Compare(const Test* first, const Test* second) {
-    if (!first->str.compare(second->str)) {
+    int cmp = first->str.compare(second->str);
+    if (!cmp) {
         return first->number - second->number;
     }
-    return first->str.compare(second->str);
+    return cmp;
 }
 
 TEST_CASE("easy test") {
