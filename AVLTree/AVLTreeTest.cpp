@@ -43,7 +43,37 @@ TEST_CASE("tree") {
     CHECK(tree_.find(ints[2]) != nullptr);
     CHECK(tree_.remove(ints[2]) == true);
     CHECK(tree_.remove(ints[2]) == false);
-
+    // проверка малого левого вращения
+    for (int i = 0; i < 6; i++) {
+        ints[i] = i;
+        CHECK(tree_.add(ints + i) == true);
+        CHECK(tree_.add(ints + i) == false);
+    }
+    tree_.clear();
+    // проверка большого левого вращения
+    CHECK(tree_.add(ints) == true);
+    CHECK(tree_.add(ints + 1) == true);
+    CHECK(tree_.add(ints + 4) == true);
+    CHECK(tree_.add(ints + 3) == true);
+    CHECK(tree_.add(ints + 5) == true);
+    CHECK(tree_.add(ints + 2) == true);
+    tree_.clear();
+    // проверка малого правого вращения
+    CHECK(tree_.add(ints + 4) == true);
+    CHECK(tree_.add(ints + 5) == true);
+    CHECK(tree_.add(ints + 2) == true);
+    CHECK(tree_.add(ints + 3) == true);
+    CHECK(tree_.add(ints + 1) == true);
+    CHECK(tree_.add(ints + 0) == true);
+    tree_.clear();
+    // проверка большого правого вращения
+    CHECK(tree_.add(ints + 4) == true);
+    CHECK(tree_.add(ints + 5) == true);
+    CHECK(tree_.add(ints + 1) == true);
+    CHECK(tree_.add(ints + 0) == true);
+    CHECK(tree_.add(ints + 3) == true);
+    CHECK(tree_.add(ints + 2) == true);
+    tree_.clear();
     // средний тест на весь функционал
     for (int i = 0; i < 15; i++) {
         ints[i] = i;
